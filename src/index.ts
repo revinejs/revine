@@ -59,20 +59,28 @@ program
       // Update README
       const readmePath = path.join(projectDir, "README.md");
       let readmeContent = fs.readFileSync(readmePath, "utf-8");
-      readmeContent = readmeContent.replace(/%PROJECT_NAME%/g, projectName);
+      const finalProjectName = isCurrentDir
+        ? path.basename(projectDir)
+        : projectName;
+      readmeContent = readmeContent.replace(
+        /%PROJECT_NAME%/g,
+        finalProjectName
+      );
       fs.writeFileSync(readmePath, readmeContent);
 
       // Install dependencies with error handling
       console.log(chalk.cyan("\nInstalling dependencies..."));
-      const npmCmd = process.platform === 'win32' ? 'npm.cmd' : 'npm';
+      const npmCmd = process.platform === "win32" ? "npm.cmd" : "npm";
       const installResult = spawnSync(npmCmd, ["install"], {
         stdio: "inherit",
         cwd: projectDir,
-        shell: true
+        shell: true,
       });
 
       if (installResult.error || installResult.status !== 0) {
-        console.log(chalk.red("\nError installing dependencies!", installResult.error));
+        console.log(
+          chalk.red("\nError installing dependencies!", installResult.error)
+        );
         console.log(chalk.yellow("Try running manually: npm install"));
         process.exit(1);
       }
