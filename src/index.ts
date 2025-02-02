@@ -38,6 +38,12 @@ program
       packageJson.name = projectName;
       await fs.writeJson(packageJsonPath, packageJson, { spaces: 2 });
 
+      // Update README
+      const readmePath = path.join(projectDir, "README.md");
+      let readmeContent = fs.readFileSync(readmePath, "utf-8");
+      readmeContent = readmeContent.replace(/%PROJECT_NAME%/g, projectName);
+      fs.writeFileSync(readmePath, readmeContent);
+
       // Install dependencies
       console.log(chalk.cyan("Installing dependencies..."));
       spawnSync("npm", ["install"], {
