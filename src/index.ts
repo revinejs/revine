@@ -62,19 +62,27 @@ program
       readmeContent = readmeContent.replace(/%PROJECT_NAME%/g, projectName);
       fs.writeFileSync(readmePath, readmeContent);
 
-      // Install dependencies
-      console.log(chalk.cyan("Installing dependencies..."));
-      spawnSync("npm", ["install"], {
+      // Install dependencies with error handling
+      console.log(chalk.cyan("\nInstalling dependencies..."));
+      const npmCmd = process.platform === 'win32' ? 'npm.cmd' : 'npm';
+      const installResult = spawnSync(npmCmd, ["install"], {
         stdio: "inherit",
         cwd: projectDir,
+        shell: true
       });
+
+      if (installResult.error || installResult.status !== 0) {
+        console.log(chalk.red("\nError installing dependencies!", installResult.error));
+        console.log(chalk.yellow("Try running manually: npm install"));
+        process.exit(1);
+      }
 
       console.log(
         chalk.green("\nSuccess! Created project at"),
         chalk.yellow(projectDir)
       );
       console.log(chalk.cyan("\nStart developing with:"));
-      console.log(`  cd ${isCurrentDir ? '' : projectName}`);
+      if (!isCurrentDir) console.log(`  cd ${projectName}`);
       console.log("  npm run dev\n");
     } catch (error) {
       console.log(chalk.red("Error:"), error);
