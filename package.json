@@ -1,0 +1,28 @@
+{
+  "name": "revine",
+  "version": "1.0.0",
+  "description": "A react framework, but better.",
+  "license": "ISC",
+  "author": "Rachit Bharadwaj",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "revine": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "chalk": "^5.4.1",
+    "commander": "^13.1.0",
+    "cross-spawn": "^7.0.6",
+    "fs-extra": "^11.3.0"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^22.13.0",
+    "typescript": "^5.7.3"
+  }
+}
