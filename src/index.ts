@@ -110,22 +110,6 @@ program
         fs.writeFileSync(viteConfigPath, viteConfigContent);
         fs.writeFileSync(viteConfigPath, viteConfigContent);
 
-        // Create Tailwind config with ESM syntax
-        const tailwindConfigPath = path.join(projectDir, "tailwind.config.ts");
-        const tailwindConfigContent = `import type { Config } from 'tailwindcss';
-
-export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-} satisfies Config;`;
-        fs.writeFileSync(tailwindConfigPath, tailwindConfigContent);
-
         // Create CSS file with import
         const cssDir = path.join(projectDir, "src", "styles");
         fs.ensureDirSync(cssDir);
