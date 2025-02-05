@@ -26,9 +26,9 @@ export async function setupTailwind(projectDir: string) {
   );
 
   // Prepend the CSS import to src/main.tsx
-  const mainTsxPath = path.join(projectDir, "src", "main.tsx");
+  const rootTsxPath = path.join(projectDir, "src", "root.tsx");
   const mainContent =
     `import './styles/global.css';\n` +
-    (await fs.readFile(mainTsxPath, "utf-8"));
-  await fs.writeFile(mainTsxPath, mainContent);
+    (await fs.readFile(rootTsxPath, "utf-8"));
+  await fs.writeFile(rootTsxPath, mainContent);
 }
