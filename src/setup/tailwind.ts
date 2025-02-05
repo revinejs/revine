@@ -4,7 +4,7 @@ import { updateViteConfig } from "../config/vite.js";
 import { logInfo } from "../utils/logger.js";
 
 export async function setupTailwind(projectDir: string) {
-  logInfo("\nSetting up Tailwind CSS v4...");
+  logInfo("\nSetting up Tailwind CSS...");
 
   // Point to the hidden Vite config
   const viteConfigPath = path.join(
