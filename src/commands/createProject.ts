@@ -2,7 +2,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { updatePackageJson } from "../config/package.js";
 import { updateReadme } from "../config/readme.js";
-import { installDependencies } from "../installers/dependencies.js";
+import { installDependencies } from "../setup/dependencies.js";
 import { askForTailwindSetup } from "../prompts/tailwind.js";
 import { setupTailwind } from "../setup/tailwind.js";
 import { copyTemplate } from "../utils/file.js";
