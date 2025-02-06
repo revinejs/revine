@@ -1,8 +1,9 @@
 import react from "@vitejs/plugin-react";
 import { revineLoggerPlugin } from "../viteLoggerPlugin";
+import tailwindcss from "@tailwindcss/vite";
 
 export const defaultViteConfig = {
-  plugins: [react(), revineLoggerPlugin()],
+  plugins: [react(), revineLoggerPlugin(), tailwindcss()],
   logLevel: "silent",
 
   server: {
