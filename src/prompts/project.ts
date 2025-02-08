@@ -7,7 +7,7 @@ import { logInfo } from "../utils/logger.js";
  * If the user confirms, it will run `npm run dev` or the equivalent command.
  * @param projectDir - The directory where the project was set up.
  */
-export default async function initiateProject(projectDir: string) {
+export default async function runProject(projectDir: string) {
   const { runProject } = await inquirer.prompt([
     {
       type: "confirm",

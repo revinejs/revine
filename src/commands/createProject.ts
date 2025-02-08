@@ -2,8 +2,8 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { updatePackageJson } from "../config/package.js";
 import { updateReadme } from "../config/readme.js";
+import { askForTailwindSetup, initGit, runProject } from "../prompts/index.js";
 import { installDependencies } from "../setup/dependencies.js";
-import { askForTailwindSetup, initiateProject } from "../prompts/index.js";
 import { setupTailwind } from "../setup/tailwind.js";
 import { copyTemplate } from "../utils/file.js";
 import { logError, logInfo } from "../utils/logger.js";
@@ -53,8 +53,11 @@ export async function createProject(
     if (!isCurrentDir) console.log(`  cd ${projectName}`);
     console.log("  npm run dev\n");
 
-    // Prompt to initiate project
-    await initiateProject(projectDir);
+    // Check if Git exists and initialize repository if user agrees
+    await initGit(projectDir);
+
+    // Prompt to run project
+    await runProject(projectDir);
   } catch (error) {
     logError("Error during project creation:", error);
     process.exit(1);
