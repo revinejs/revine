@@ -1,6 +1,6 @@
 import inquirer from "inquirer";
 
-export async function askForTailwindSetup(): Promise<boolean> {
+export default async function askForTailwindSetup(): Promise<boolean> {
   const { useTailwind } = await inquirer.prompt([
     {
       type: "confirm",

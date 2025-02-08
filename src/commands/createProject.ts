@@ -3,7 +3,7 @@ import { fileURLToPath } from "url";
 import { updatePackageJson } from "../config/package.js";
 import { updateReadme } from "../config/readme.js";
 import { installDependencies } from "../setup/dependencies.js";
-import { askForTailwindSetup } from "../prompts/tailwind.js";
+import { askForTailwindSetup, initiateProject } from "../prompts/index.js";
 import { setupTailwind } from "../setup/tailwind.js";
 import { copyTemplate } from "../utils/file.js";
 import { logError, logInfo } from "../utils/logger.js";
@@ -52,6 +52,9 @@ export async function createProject(
     logInfo("\nStart developing with:");
     if (!isCurrentDir) console.log(`  cd ${projectName}`);
     console.log("  npm run dev\n");
+
+    // Prompt to initiate project
+    await initiateProject(projectDir);
   } catch (error) {
     logError("Error during project creation:", error);
     process.exit(1);
