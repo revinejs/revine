@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import { lazy, Suspense, ComponentType } from "react";
+import NotFound from "../../src/NotFound";
 
 const pages = import.meta.glob("../../src/pages/**/*.tsx");
 
@@ -18,7 +19,6 @@ const routes = Object.entries(pages).map(([filePath, component]) => {
     cleaned = "";
   }
 
-  // 6. Route path is empty for index => "/"
   const routePath = cleaned === "" ? "/" : `/${cleaned}`;
 
   const Component = lazy(
@@ -33,6 +33,12 @@ const routes = Object.entries(pages).map(([filePath, component]) => {
       </Suspense>
     ),
   };
+});
+
+// fallback route for 404s
+routes.push({
+  path: "*",
+  element: <NotFound />,
 });
 
 export const router = createBrowserRouter(routes);
