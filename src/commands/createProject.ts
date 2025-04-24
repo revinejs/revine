@@ -1,5 +1,6 @@
 import path from "path";
 import { fileURLToPath } from "url";
+import fs from "fs-extra";
 import { updatePackageJson } from "../config/package.js";
 import { updateReadme } from "../config/readme.js";
 import { askForTailwindSetup, initGit, runProject } from "../prompts/index.js";
@@ -22,6 +23,10 @@ export async function createProject(
 
   try {
     logInfo(`Creating project in ${projectDir}...`);
+    
+    // Ensure the project directory exists
+    await fs.ensureDir(projectDir);
+    
     // This copies everything, including hidden directories like .revine
     await copyTemplate(templateDir, projectDir, options.force);
 
@@ -30,13 +35,31 @@ export async function createProject(
       ? path.basename(projectDir)
       : projectName;
 
-    // Update package.json (e.g., set name, set "type": "module", add Tailwind deps if chosen)
+    // Check if package.json exists after template copy
     const packageJsonPath = path.join(projectDir, "package.json");
+    
+    // Create basic package.json if it doesn't exist
+    if (!await fs.pathExists(packageJsonPath)) {
+      const basicPackageJson = {
+        name: finalProjectName,
+        version: "0.1.0",
+        private: true,
+        type: "module"
+      };
+      await fs.writeJSON(packageJsonPath, basicPackageJson, { spaces: 2 });
+    }
+    
+    // Update package.json with the correct details
     const useTailwind = await askForTailwindSetup();
     await updatePackageJson(packageJsonPath, finalProjectName, { useTailwind });
 
-    // Update README with the project name
+    // Check if README exists, create it if it doesn't
     const readmePath = path.join(projectDir, "README.md");
+    if (!await fs.pathExists(readmePath)) {
+      await fs.writeFile(readmePath, `# ${finalProjectName}\n\nCreated with Revine`);
+    }
+    
+    // Update README with the project name
     await updateReadme(readmePath, finalProjectName);
 
     // Install dependencies
